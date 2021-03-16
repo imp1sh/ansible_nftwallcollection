@@ -1,0 +1,60 @@
+---
+# mandatory for nftables anti-lockout rule
+# if you
+ansibleip6: << enter IP your ansible host connects to the firewall >>
+# optional
+# ansibleip: 
+
+# mandatory since a firewall needs network interfaces
+# give them a name for better organization
+# accept_ra is being used in ansible_sysctl to set kernel flags right
+# method [static|dhcp|manual]
+# method6 [static|slaac]
+netinterfaces:
+  - interface: "eth0"
+    name: "WAN uplink"
+    accept_ra: "0"
+    # accept_ra: "2" if you want an additional auto IP on top of static
+    method: "static"
+    ip: "192.168.200.2/28"
+    gateway: "192.168.200.1"
+    method6: "static"
+    ip6: "2001:abc:7e68::2/64"
+    gateway6: "2001:abc:7e68::1"
+  - interface: "eth1"
+    name: "LAN1 downlink"
+    accept_ra: "0"
+    method: "static"
+    ip: "172.16.88.1/24"
+    method6: "static"
+    ip6: "2001:abc:7e68:1000::1/64"
+# dnsmasq settings
+# later also support different solutions but for starters dnsmasq is very nice because it solves multiple tasks in one software just like it does in OpenWrt, yet it is very flexible and feature rich
+use_dnsmasq: true
+dnsmasq_dnsport: 53
+dnsmasq_domainneeded: true
+dnsmasq_boguspriv: false
+dnsmasq_dnssec: false
+dnsmasq_dnssec_checkunsigned: false
+dnsmasq_localservice: true
+dnsmasq_dhcpenable: true
+dnsmasq_dhcp4ifs:
+  - interface: "eth1"
+    ranges:
+    - start: "172.16.88.21"
+      end: "172.16.88.30"
+      leasetime: "24h"
+    - start: "172.16.88.121"
+      end: "172.16.88.130"
+# options like in pfSense: disabled, Router Only, Unmanaged, Managed, Assisted, Stateless DHCP
+# https://docs.netgate.com/pfsense/en/latest/book/services/ipv6-dhcp-server-and-router-advertisements.html
+dnsmasq_ipv6mode: "managed"
+dnsmasq_dhcpifs:
+  - interface: "eth1"
+    start: "::1000"
+    end: "::2000"
+dnsmasq_options:
+# router
+  - "3,172.16.88.1"
+# nameserver
+  - "6,172.16.88.1"
