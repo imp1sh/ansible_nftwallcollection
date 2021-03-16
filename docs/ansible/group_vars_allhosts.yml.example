@@ -1,0 +1,11 @@
+---
+nfvars:
+  nets:
+    N6_mynet1:
+      value: "2001:123:345:7337::/64"
+      comment: "Prefix for secure and private network at home"
+  ports:
+    ssh:
+      value: "22"
+      proto: "tcp"
+      comment: "SSH service default port"

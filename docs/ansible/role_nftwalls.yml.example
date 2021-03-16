@@ -1,0 +1,8 @@
+---
+- hosts: nftwalls
+#  become: true
+  roles:
+          - imp1sh.ansible_nftwallcollection.ansible_dnsmasq
+          - imp1sh.ansible_nftwallcollection.ansible_netconfig
+          - imp1sh.ansible_nftwallcollection.ansible_nftables
+          - imp1sh.ansible_nftwallcollection.ansible_keepalived

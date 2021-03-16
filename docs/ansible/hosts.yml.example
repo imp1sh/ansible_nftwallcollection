@@ -1,0 +1,10 @@
+---
+nftwalls:
+  hosts:
+    alpine3.demo.junicast.de:
+    alpine4.demo.junicast.de:
+allhosts:
+  hosts:
+    alpine3.demo.junicast.de:
+    alpine4.demo.junicast.de:
+
