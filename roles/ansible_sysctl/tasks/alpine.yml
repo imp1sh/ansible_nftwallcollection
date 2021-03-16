@@ -1,0 +1,33 @@
+- name: Enable IPv4 Forwarding in Kernel
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+- name: Set accept_ra=2 globally
+  sysctl:
+    name: net.ipv6.conf.all.accept_ra
+    value: '2'
+    sysctl_set: yes
+    state: present
+    reload: yes
+- name: set accept_ra for interfaces explicitly
+  sysctl:
+    name: net.ipv6.conf.{{ item.interface }}.accept_ra
+    value: "{{ item.accept_ra }}"
+    state: present
+    reload: yes
+    sysctl_file: /etc/sysctl.d/{{ item.interface }}.conf
+  loop: "{{ netinterfaces }}"
+  when:
+    - item.accept_ra is defined
+    - netinterfaces is defined
+- name: Enable IPv6 Forwarding in Kernel
+  sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+    sysctl_file: "/etc/sysctl.d/forwarding.conf"
