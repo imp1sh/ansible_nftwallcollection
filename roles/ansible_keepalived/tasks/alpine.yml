@@ -1,0 +1,27 @@
+# Group definitions
+- name: Install keepalived
+  package:
+          name: "keepalived"
+          state: present
+- name: Create nftwall opt Directory
+  file:
+    path: /opt/nftwall
+    state: directory
+- name: Install bash as requirment for changestate script
+  package:
+    name: "bash"
+    state: present
+- name: Install changestate script
+  template:
+    src: changestate.bash.j2
+    dest: /opt/nftwall/changestate.bash
+    mode: 0740
+- name: Setup keepalived.conf
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  notify: restart keepalived
+- name: Set keepalived to started
+  service:
+    name: keepalived
+    state: started

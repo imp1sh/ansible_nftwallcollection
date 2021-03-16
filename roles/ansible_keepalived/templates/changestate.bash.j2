@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# nftwall change state script
+# Jochen Demmer 2021
+function echohowto {
+  echo "Choose between one of the following arguments:"
+  echo "primary, secondary or fault"
+}
+if [ "$#" -ne 1 ]; then
+  echohowto
+  exit 1
+fi
+if [ "$1" = "primary" ]; then
+  echo "primary"
+  service dnsmasq start
+elif [ "$1" = "secondary" ]; then
+  echo "secondary"
+  service dnsmasq stop
+else
+  echohowto
+  exit 2
+fi
+

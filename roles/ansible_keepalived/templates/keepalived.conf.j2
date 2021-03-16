@@ -1,0 +1,56 @@
+! Configuration File for keepalived
+
+global_defs {
+{% if kad_notificationemails is defined %}
+  notification_email {
+{% for email in kad_notificationemails %}
+    {{ email }}
+{% endfor %}
+  }
+{% endif %}
+#  notification_email_from jochen@winteltosh.de
+#  smtp_server 192.168.200.1
+#  smtp_connect_timeout 30
+   router_id {{ ansible_fqdn }}
+   vrrp_skip_check_adv_addr
+   vrrp_strict
+   vrrp_garp_interval 0
+   vrrp_gna_interval 0
+}
+
+{% if kad_vrrpinstances is defined %}
+vrrp_sync_group NFTWALL {
+  group {
+{% for instance in kad_vrrpinstances %}
+    {{ instance['name'] }}
+{% endfor %}
+  }
+  notify_master "/opt/nftwall/changestate.bash primary"
+  notify_backup "/opt/nftwall/changestate.bash secondary"
+  notify_fault "/opt/nftwall/changestate.bash fault"
+}
+{% endif %}
+{% for instance in kad_vrrpinstances %}
+vrrp_instance {{ instance['name'] }}{
+{% if ansible_fqdn == instance['master'] %}
+  state MASTER
+  interface {{ instance['masterif'] }}
+  priority {{ instance['priorityanchor'] }}
+{% elif ansible_fqdn == instance['slave'] %}
+  state BACKUP
+  interface {{ instance['slaveif'] }}
+  priority {{ instance['priorityanchor']|int - 1 }}
+{% endif %}
+  virtual_router_id {{ instance['routerid'] }}
+  advert_int {{ instance['advertint'] }}
+  authentication {
+    auth_type PASS
+    auth_pass {{ instance['authpass'] }}
+  }
+  virtual_ipaddress {
+{% for ip in instance['vips'] %}
+    {{ ip }}
+{% endfor %}
+  }
+}
+{% endfor %}

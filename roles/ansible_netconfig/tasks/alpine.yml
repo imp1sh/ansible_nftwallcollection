@@ -1,0 +1,15 @@
+---
+- name: Install packages
+  apk:
+          name: "vlan, bridge"
+          state: installed
+- name: deploy interfaces
+  template:
+          src: alpineinterfaces.j2
+          dest: /etc/network/interfaces
+          owner: root
+          group: root
+          mode: 0644
+          backup: yes
+  notify: restart networking
+  when: netinterfaces is defined

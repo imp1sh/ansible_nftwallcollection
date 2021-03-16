@@ -1,0 +1,7 @@
+---
+- name:
+  debug:
+    msg: "is: {{ inventory_hostname }}"
+- name: setup hostname
+  hostname:
+    name: "{{ inventory_hostname }}"

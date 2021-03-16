@@ -1,0 +1,19 @@
+galaxy_info:
+  role_name: dnsmasq
+  author: imp1sh
+  description: configures dnsmasq with router advertisement or DHCPv6 and of course DHCP. Acts as a DNS service.
+  license: license (BSD, MIT)
+  min_ansible_version: 2.0
+  platforms:
+  - name: Alpine
+    versions:
+    - all
+
+  galaxy_tags:
+  - dnsmasq
+  - dhcp
+  - dhcpv6
+  - radvd
+  - ipv6
+
+dependencies: []

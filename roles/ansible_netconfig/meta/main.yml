@@ -1,0 +1,16 @@
+galaxy_info:
+  role_name: netconfig
+  author: imp1sh
+  description: configures network interfaces in Alpine
+  license: license (BSD, MIT)
+  min_ansible_version: 2.0
+  platforms:
+  - name: Alpine
+    versions:
+    - all
+
+  galaxy_tags:
+  - network
+  - interfaces
+
+dependencies: []
