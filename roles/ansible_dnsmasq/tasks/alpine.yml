@@ -13,6 +13,7 @@
     src: dnsmasq.dhcp.conf.j2
     dest: /etc/dnsmasq.d/interface.conf
   when: (dnsmasq_dhcpenable is sameas true and dnsmasq_dhcp4ifs is defined) or (dnsmasq_dhcpenable is sameas true and dnsmasq_ipv6mode is defined)
+  notify: dnsmasq reload
 - name: Enable and start dnsmasq
   service:
     name: dnsmasq
