@@ -1,7 +1,7 @@
 ---
 # mandatory for nftables anti-lockout rule
 # playbook won't run without this IP set
-ansibleip6: "{{ nfvars['hosts']['H_ansiblemain']['interfaces']['eth0']['ip6'] }}"
+ansibleip6: "{{ nfvars['hosts']['ansiblemain']['interfaces']['eth0']['ip6'] }}"
 # optional
 # ansibleip: 
 
@@ -48,10 +48,10 @@ dnsmasq_dhcp4ifs:
 dnsmasq_ipv6mode: "managed"
 dnsmasq_dhcpifs:
   - interface: "eth1"
-    start: "{{ nfvars['nets']['demo2']['dhcp6start']"
-    end:   "{{ nfvars['nets']['demo2']['dhcp6end']"
+    start: "{{ nfvars['nets']['demo2']['dhcp6start'] }}"
+    end:   "{{ nfvars['nets']['demo2']['dhcp6end'] }}"
 dnsmasq_options:
 # router
-  - "3,{{ nfvars['nets']['demo2']['gw']"
+  - "3,{{ nfvars['nets']['demo2']['gw'] }}"
 # nameserver
-  - "6,{{ nfvars['nets']['demo2']['dnsserver']|join(',') }}"
+  - "6,{{ nfvars['nets']['demo2']['dnsservers']|join(',') }}"

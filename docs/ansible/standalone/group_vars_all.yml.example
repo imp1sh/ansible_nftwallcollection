@@ -13,10 +13,10 @@ nfvars:
       dhcp6end:   "::2000"
       dnsservers:
         -         "172.16.33.5"
-	-         "9.9.9.9"
+        -         "9.9.9.9"
       dnsservers6:
         -         "2001:470:7e68:1002::5"
-	-         "2620:fe::fe"
+        -         "2620:fe::fe"
     down3:
       comment:    "DOWN3 Transfer network"
       ip6:        "2001:470:7e68::/64"
@@ -31,25 +31,24 @@ nfvars:
     ansiblemain:
       comment:     "Main Ansible host"
       interfaces:
-      - eth0:
-	comment:   "Main Interface"
-        ip6:       "2a00:afe::1/64"
+        eth0:
+          comment:   "Main Interface"
+          ip6:       "2a00:afe::1/64"
     alpine3:
       comment:     "Alpine Demo Router"
       interfaces:
-        - eth0:
-	  comment: "WAN uplink to DOWN3"
-	  method:  "static"
-	  ip:      "192.168.200.5/28"
-	  method6: "static"
-	  ip6:     "2001:470:7e68::5/64"
-      interfaces:
-        - eth1:
-	  comment: "LAN downlink to DEMO2"
-	  method:  "static"
-	  ip:      "172.16.33.5/24"
-	  method6: "static"
-	  ip6:     "2001:470:7e68:1002::5"
+        eth0:
+          comment: "WAN uplink to DOWN3"
+          method:  "static"
+          ip:      "192.168.200.5/28"
+          method6: "static"
+          ip6:     "2001:470:7e68::5/64"
+        eth1:
+          comment: "LAN downlink to DEMO2"
+          method:  "static"
+          ip:      "172.16.33.5/24"
+          method6: "static"
+          ip6:     "2001:470:7e68:1002::5"
   ports:
     ssh:
       value:       "5439"
