@@ -13,7 +13,7 @@ nftables_masks:
     downif: "eth1"
 # add more upif downif items if you need them
 # optional attribute for nftablesopenhost so that the rule get placed into its dedicated input chain
-nftablesopengroup:
+#nftablesopengroup:
 # use group definitions, e.g. those rules are being installed on all hosts in nftwalls group
 #  nftwalls:
 #  - family: 46
