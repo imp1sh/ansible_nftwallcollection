@@ -13,30 +13,24 @@ nftables_masks:
     downif: "eth1"
 # add more upif downif items if you need them
 # optional attribute for nftablesopenhost so that the rule get placed into its dedicated input chain
-#nftablesopengroup:
+nftablesopengroup:
 # use group definitions, e.g. those rules are being installed on all hosts in nftwalls group
-#  nftwalls:
-#  - family: 46
-#    inif: "eth2"
-#    proto: "tcpudp"
-#  - family: 46
-#    proto: "112"
-#    comment: "Allow VRRP an all interfaces for both IPv4 and IPv6"
-#  - dport: 67
-#    inif: "eth1"
-#    family: 4
-#    proto: "udp"
-#    comment: "Accept DHCP requests"
-#  - dport: 53
-#    inif: "eth1"
-#    family: 46
-#    proto: "tcpudp"
-#    comment: "DNS Allow tcp incoming on eth0"
-#  - dport: 547
-#    inif: "eth1"
-#    family: 6
-#    proto: "udp"
-#    comment: "Allow DHCPv6"
+  nftwalls:
+  - dport: 67
+    inif: "eth1"
+    family: 4
+    proto: "udp"
+    comment: "Accept DHCP requests"
+  - dport: 53
+    inif: "eth1"
+    family: 46
+    proto: "tcpudp"
+    comment: "DNS Allow tcp incoming on eth0"
+  - dport: 547
+    inif: "eth1"
+    family: 6
+    proto: "udp"
+    comment: "Allow DHCPv6"
 #  - dport: 22
 #    inif: "eth0"
 #    family: 6
@@ -48,7 +42,7 @@ nftables_masks:
 #    family: 6
 #    saddr: "2001:abc:234:7337::/64"
 #    proto: "tcp"
-#    comment: "Allow SSH from insecure"
+#    comment: "Allow SSH from office"
 #  - dport: 22
 #    inif: "eth0"
 #    family: 6
