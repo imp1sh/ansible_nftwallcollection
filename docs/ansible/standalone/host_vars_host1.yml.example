@@ -1,35 +1,34 @@
 ---
 # mandatory for nftables anti-lockout rule
-# if you
-ansibleip6: << enter IP your ansible host connects to the firewall >>
+# playbook won't run without this IP set
+ansibleip6: "{{ nfvars['hosts']['H_ansiblemain']['interfaces']['eth0']['ip6'] }}"
 # optional
 # ansibleip: 
 
 # mandatory since a firewall needs network interfaces
-# give them a name for better organization
-# accept_ra is being used in ansible_sysctl to set kernel flags right
+# accept_ra is being set in ansible_sysctl role to set kernel flags right
 # method [static|dhcp|manual]
 # method6 [static|slaac]
 netinterfaces:
   - interface: "eth0"
-    name: "WAN uplink"
-    accept_ra: "0"
+    name:      "{{ nfvars['hosts']['alpine3']['interfaces']['eth0']['comment'] }}"
+    method6:   "{{ nfvars['hosts']['alpine3']['interfaces']['eth0']['method6'] }}"
+    ip6:       "{{ nfvars['hosts']['alpine3']['interfaces']['eth0']['ip6'] }}"
+    method:    "{{ nfvars['hosts']['alpine3']['interfaces']['eth0']['method'] }}"
+    ip:        "{{ nfvars['hosts']['alpine3']['interfaces']['eth0']['ip'] }}"
+    gateway:   "{{ nfvars['nets']['down3']['gw'] }}"
+    gateway6:  "{{ nfvars['nets']['down3']['gw6'] }}"
     # accept_ra: "2" if you want an additional auto IP on top of static
-    method: "static"
-    ip: "192.168.200.5/28"
-    gateway: "192.168.200.1"
-    method6: "static"
-    ip6: "2001:470:7e68::5/64"
-    gateway6: "2001:470:7e68::1"
-  - interface: "eth1"
-    name: "LAN1 downlink"
     accept_ra: "0"
-    method: "static"
-    ip: "172.16.88.5/24"
-    method6: "static"
-    ip6: "2001:abc:7e68:1000::5/64"
+  - interface: "eth1"
+    name:      "{{ nfvars['hosts']['alpine3']['interfaces']['eth1']['comment'] }}"
+    method6:   "{{ nfvars['hosts']['alpine3']['interfaces']['eth1']['method6'] }}"
+    ip6:       "{{ nfvars['hosts']['alpine3']['interfaces']['eth1']['ip6'] }}"
+    method:    "{{ nfvars['hosts']['alpine3']['interfaces']['eth1']['method'] }}"
+    ip:        "{{ nfvars['hosts']['alpine3']['interfaces']['eth1']['ip'] }}"
+    accept_ra: "0"
 # dnsmasq settings
-# later also support different solutions but for starters dnsmasq is very nice because it solves multiple tasks in one software just like it does in OpenWrt, yet it is very flexible and feature rich
+# later we'll also support other solutions but for starters dnsmasq is very nice because it solves multiple tasks in one software just like it does in OpenWrt, yet it is very flexible and feature rich
 use_dnsmasq: true
 dnsmasq_dnsport: 53
 dnsmasq_domainneeded: true
@@ -39,22 +38,20 @@ dnsmasq_dnssec_checkunsigned: false
 dnsmasq_localservice: true
 dnsmasq_dhcpenable: true
 dnsmasq_dhcp4ifs:
-  - interface: "eth1"
+  - interface:   "eth1"
     ranges:
-    - start: "172.16.88.21"
-      end: "172.16.88.30"
+    - start:     "{{ nfvars['nets']['demo2']['dhcpstart'] }}"
+      end:       "{{ nfvars['nets']['demo2']['dhcpend'] }}"
       leasetime: "24h"
-    - start: "172.16.88.121"
-      end: "172.16.88.130"
 # options like in pfSense: disabled, Router Only, Unmanaged, Managed, Assisted, Stateless DHCP
 # https://docs.netgate.com/pfsense/en/latest/book/services/ipv6-dhcp-server-and-router-advertisements.html
 dnsmasq_ipv6mode: "managed"
 dnsmasq_dhcpifs:
   - interface: "eth1"
-    start: "::1000"
-    end: "::2000"
+    start: "{{ nfvars['nets']['demo2']['dhcp6start']"
+    end:   "{{ nfvars['nets']['demo2']['dhcp6end']"
 dnsmasq_options:
 # router
-  - "3,172.16.88.1"
+  - "3,{{ nfvars['nets']['demo2']['gw']"
 # nameserver
-  - "6,172.16.88.1"
+  - "6,{{ nfvars['nets']['demo2']['dnsserver']|join(',') }}"

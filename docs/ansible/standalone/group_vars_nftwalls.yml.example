@@ -16,59 +16,61 @@ nftables_masks:
 nftablesopengroup:
 # use group definitions, e.g. those rules are being installed on all hosts in nftwalls group
   nftwalls:
-  - dport: 67
-    inif: "eth1"
-    family: 4
-    proto: "udp"
+  - dport:   "bootps"
+    inif:    "eth1"
+    family:  4
+    proto:   "udp"
     comment: "Accept DHCP requests"
-  - dport: 53
-    inif: "eth1"
-    family: 46
-    proto: "tcpudp"
+  - dport:   53
+    inif:    "eth1"
+    family:  46
+    proto:   "tcpudp"
     comment: "DNS Allow tcp incoming on eth0"
-  - dport: 547
-    inif: "eth1"
-    family: 6
-    proto: "udp"
+  - dport:   547
+    inif:    "eth1"
+    family:  6
+    proto:   "udp"
     comment: "Allow DHCPv6"
-#  - dport: 22
-#    inif: "eth0"
-#    family: 6
-#    saddr: "2a00:1234:4321:10::/64"
-#    proto: "tcp"
+#  - dport:   22
+#    inif:    "eth0"
+#    family:  6
+#    saddr:   "{{ nfvars['hosts']['foreignhost']['ip6'] }}"
+# or if it's one of your hosts it's more like:
+#    saddr:   "{{ nfvars['hosts']['somehost']['interfaces']['eth0']['ip6'] }}"
+#    proto:   "tcp"
 #    comment: "Allow SSH from Home"
-#  - dport: 22
-#    inif: "eth0"
-#    family: 6
-#    saddr: "2001:abc:234:7337::/64"
-#    proto: "tcp"
+#  - dport:   ssh
+#    inif:    "eth0"
+#    family:  6
+#    saddr:   "2001:abc:234:7337::/64"
+#    proto:   "tcp"
 #    comment: "Allow SSH from office"
-#  - dport: 22
-#    inif: "eth0"
-#    family: 6
-#    saddr: "{{ nfvars['nets']['N6_mynet1']['value'] }}"
+#  - dport:   22
+#    inif:    "eth0"
+#    family:  6
+#    saddr:   "{{ nfvars['nets']['N6_mynet1']['value'] }}"
 # example rule of allowing incoming IPv6 traffic (no NAT needed)
 #nftables_forward:
-#  - inif: "eth0"
-#    daddr: "2001:aaaa:123:1000::/64"
-#    saddr: "2001:faa:b33:1::/64"
-#    dport: "22"
-#    proto: "tcpudp"
-#    family: 6
-#    outif: "eth1"
+#  - inif:    "eth0"
+#    daddr:   "2001:aaaa:123:1000::/64"
+#    saddr:   "2001:faa:b33:1::/64"
+#    dport:   22
+#    proto:   "tcpudp"
+#    family:  6
+#    outif:   "eth1"
 #    comment: "Allow SSH to client3 from net1"
 # Example Port Forwarding rules for legacy protocol version 4
 #nftables_dnat:
-#  - dport: 801
-#    ip: "172.16.88.16"
-#    proto: "tcpudp"
-#    inif: "eth0"
-#    outif: "eth1"
+#  - dport:   801
+#    ip:      "172.16.88.16"
+#    proto:   "tcpudp"
+#    inif:    "eth0"
+#    outif:   "eth1"
 #    comment: "Forward Port 801 to host 17"
-#  - dport: 4431
-#    ip: "172.16.88.16"
-#    proto: "tcp"
-#    inif: "eth0"
-#    outif: "eth1"
+#  - dport:   4431
+#    ip:      "172.16.88.16"
+#    proto:   "tcp"
+#    inif:    "eth0"
+#    outif:   "eth1"
 #    comment: "Forward Port 4431 to host 17"
 
