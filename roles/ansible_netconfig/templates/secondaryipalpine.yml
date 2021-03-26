@@ -1,2 +1,0 @@
-#!/bin/sh
-ip a a {{ item.ipaddress }} dev {{ ansible_facts['default_ipv6']['interface'] }}
