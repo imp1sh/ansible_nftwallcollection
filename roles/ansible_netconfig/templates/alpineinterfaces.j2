@@ -2,72 +2,72 @@
 auto lo
 iface lo inet loopback
 
-{% for interface in netinterfaces %}
-# Interface Name: {{ interface.name|default("unspecified", true) }}
-auto {{ interface.interface }}
-{% if interface.method is defined %}
-{% if interface.method == 'static' and interface.ip is defined %}
-iface {{ interface.interface }} inet static
-	address {{ interface.ip | ipaddr('address') }}
-	netmask {{ interface.ip | ipaddr('netmask') }}
-{% if interface.gateway is defined %}
-	gateway {{ interface.gateway }}
+{% for key, value in netinterfaces.items() %}
+# Interface Name: {{ value.comment|default("unspecified", true) }}
+auto {{ key }}
+{% if value.method is defined %}
+{% if value.method == 'static' and value.ip4 is defined %}
+iface {{ key }} inet static
+	address {{ value.ip4 | ipaddr('address') }}
+	netmask {{ value.ip4 | ipaddr('netmask') }}
+{% if value.gw4 is defined %}
+	gateway {{ value.gw4 }}
 {% endif %}
-{% if interface.bridgeports is defined %}
-	bridge-ports {{ interface.bridgeports }}
+{% if value.children is defined %}
+	bridge-ports {{ value.children | join(' ') }}
 {% endif %}
-{% if interface.bridgestp is defined %}
-	bridge-stp {{ interface.bridgestp }}
+{% if value.bridgestp is defined %}
+	bridge-stp {{ value.bridgestp }}
 {% endif %}
-{% if interface.postup is defined %}
-	post-up {{ interface.postup }}
+{% if value.postup is defined %}
+	post-up {{ value.postup }}
 {% endif %}
-{% if interface.up is defined %}
-	up {{ interface.up }}
+{% if value.up is defined %}
+	up {{ value.up }}
 {% endif %}
-{% elif interface.method == 'dhcp' %}
-iface {{ interface.interface }} inet dhcp
-{% if interface.bridgeports is defined %}
-	bridge-ports {{ interface.bridgeports }}
+{% elif value.method == 'dhcp' %}
+iface {{ key }} inet dhcp
+{% if value.bridgeports is defined %}
+	bridge-ports {{ value.bridgeports | join(' ') }}
 {% endif %}
-{% if interface.bridgestp is defined %}
-	bridge-stp {{ interface.bridgestp }}
+{% if value.bridgestp is defined %}
+	bridge-stp {{ value.bridgestp }}
 {% endif %}
-{% if interface.postup is defined %}
-	post-up {{ interface.postup }}
+{% if value.postup is defined %}
+	post-up {{ value.postup }}
 {% endif %}
-{% if interface.up is defined %}
-	up {{ interface.up }}
+{% if value.up is defined %}
+	up {{ value.up }}
 {% endif %}
-{% elif interface.method == 'manual' %}
-iface {{ interface.interface }} inet manual
-{% if interface.bridgeports is defined %}
-	bridge-ports {{ interface.bridgeports }}
+{% elif value.method == 'manual' %}
+iface {{ key }} inet manual
+{% if value.children is defined %}
+	bridge-ports {{ value.children(' ') }}
 {% endif %}
-{% if interface.bridgestp is defined %}
-	bridge-stp {{ interface.bridgestp }}
+{% if value.bridgestp is defined %}
+	bridge-stp {{ value.bridgestp }}
 {% endif %}
-{% if interface.postup is defined %}
-	post-up {{ interface.postup }}
+{% if value.postup is defined %}
+	post-up {{ value.postup }}
 {% endif %}
-{% if interface.up is defined %}
-	up {{ interface.up }}
+{% if value.up is defined %}
+	up {{ value.up }}
 {% endif %}
 {% endif %}
 {% endif %}
-{% if interface.method6 is defined %}
-{% if interface.method6 == 'static' %}
-iface {{ interface.interface }} inet6 static
-	address {{ interface.ip6 | ipaddr('address') }}
-	netmask {{ interface.ip6 | ipaddr('prefix')}}
-{% if interface.gateway6 is defined %}
-	gateway {{ interface.gateway6 }}
+{% if value.method6 is defined %}
+{% if value.method6 == 'static' %}
+iface {{ key }} inet6 static
+	address {{ value.ip6 | ipaddr('address') }}
+	netmask {{ value.ip6 | ipaddr('prefix')}}
+{% if value.gw6 is defined %}
+	gateway {{ value.gw6 }}
 {% endif %}
-{% if interface.up6 is defined %}
-	up {{ interface.up6 }}
+{% if value.up6 is defined %}
+	up {{ value.up6 }}
 {% endif %}
-{% if interface.postup6 is defined %}
-	post-up {{ interface.postup6 }}
+{% if value.postup6 is defined %}
+	post-up {{ value.postup6 }}
 {% endif %}
 
 {% if secondaryips is defined %}
@@ -78,9 +78,9 @@ iface {{ ansible_facts['default_ipv6']['interface'] }} inet6 static
 {% endfor %}
 {% endif %}
 
-{% elif interface.method6 == 'slaac' %}
-iface {{ interface.interface }} inet6 manual
-	pre-up echo 2 > /proc/sys/net/ipv6/conf/{{ interface.interface }}/accept_ra
+{% elif value.method6 == 'slaac' %}
+iface {{ key }} inet6 manual
+	pre-up echo 2 > /proc/sys/net/ipv6/conf/{{ key }}/accept_ra
 {% endif %}
 {% endif %}
 {% endfor %}
