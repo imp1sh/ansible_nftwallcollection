@@ -14,12 +14,12 @@
     reload: yes
 - name: set accept_ra for interfaces explicitly
   sysctl:
-    name: net.ipv6.conf.{{ item.interface }}.accept_ra
+    name: net.ipv6.conf.{{ item }}.accept_ra
     value: "{{ item.accept_ra }}"
     state: present
     reload: yes
-    sysctl_file: /etc/sysctl.d/{{ item.interface }}.conf
-  loop: "{{ netinterfaces }}"
+    sysctl_file: /etc/sysctl.d/{{ item }}.conf
+  loop: "{{ netinterfaces | dict2items }}"
   when:
     - item.accept_ra is defined
     - netinterfaces is defined
