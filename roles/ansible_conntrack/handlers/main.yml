@@ -1,2 +1,6 @@
 ---
+- name: restart conntrackd
+  service:
+    name: conntrackd
+    state: restarted
 # handlers file for ansible_conntrack/
