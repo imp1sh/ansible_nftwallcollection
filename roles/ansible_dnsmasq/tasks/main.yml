@@ -1,6 +1,23 @@
 ---
-- import_tasks: alpine.yml
-  when:
-  - ansible_facts['os_family'] == 'Alpine'
-  - use_dnsmasq is sameas true
-
+- name: include OS vars
+  include_vars: "{{ ansible_os_family }}.yml"
+- name: Install dnsmasq
+  package:
+    name: "{{ package_dnsmasq }}"
+    state: present
+- name: Setup dnsmasq global configuration
+  template:
+    src: "{{ templatefile_dnsmasq_globalconfig }}"
+    dest: "{{ filepath_dnsmasq_globalconfig }}"
+  notify: dnsmasq reload
+- name: Setup dnsmasq interface specific configuration
+  template:
+    src: "{{ templatefile_dnsmasq_interface }}"
+    dest: "{{ filepath_dnsmasq_interface }}"
+  when: (dnsmasq_dhcpenable is sameas true and dnsmasq_dhcp4ifs is defined) or (dnsmasq_dhcpenable is sameas true and dnsmasq_ipv6mode is defined)
+  notify: dnsmasq reload
+- name: Enable and start dnsmasq
+  service:
+    name: "{{ servicename_dnsmasq }}"
+    state: started
+    enabled: yes
