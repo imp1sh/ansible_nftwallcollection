@@ -1,0 +1,9 @@
+---
+packagename_keepalived: "keepalived"
+packagename_bash: "bash"
+path_keepalivedconf: "/etc/keepalived"
+templatename_changestate: "changestate.bash.j2"
+templatename_keepalivedconf: "keepalived.conf.j2"
+filename_changestate: "changestate.bash"
+filename_keepalivedconf: "keepalived.conf"
+servicename_keepalived: "keepalived"

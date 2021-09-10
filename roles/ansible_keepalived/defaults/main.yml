@@ -1,2 +1,3 @@
 ---
 # defaults file for ansible_keepalived
+path_customscripts: "/opt/nftwall"

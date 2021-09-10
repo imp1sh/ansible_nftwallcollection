@@ -1,3 +1,30 @@
 ---
-- import_tasks: alpine.yml
-  when: ansible_facts['os_family'] == 'Alpine'
+- name: include OS vars
+  include_vars: "{{ ansible_os_family }}.yml"
+- name: Install keepalived
+  package:
+    name: "{{ packagename_keepalived }}"
+    state: present
+- name: Create nftwall custom scripts Directory
+  file:
+    path: "{{ path_customscripts }}"
+    state: directory
+- name: Install bash as requirment for changestate script
+  package:
+    name: "{{ packagename_bash }}"
+    state: present
+- name: Install changestate script
+  template:
+    src: "{{ templatename_changestate }}"
+    dest: "{{ path_customscripts }}/{{ filename_changestate }}"
+    mode: 0740
+- name: Setup keepalived config
+  template:
+    src: "{{ templatename_keepalivedconf }}"
+    dest: "{{ path_keepalivedconf }}/{{ filename_keepalivedconf }}"
+  notify: restart keepalived
+- name: Set keepalived to started
+  service:
+    name: "{{ servicename_keepalived }}"
+    state: started
+
