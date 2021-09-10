@@ -1,2 +1,3 @@
 ---
-package_conntrack="conntrack-tools"
+package_conntrack: "conntrack-tools"
+servicename_conntrackd: "conntrackd"

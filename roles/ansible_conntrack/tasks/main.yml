@@ -1,14 +1,14 @@
 ---
 - name: include OS vars
-    include_vars: "{{ ansible_os_family }}.yml"
+  include_vars: "{{ ansible_os_family }}.yml"
 # Group definitions
 - name: Install conntrack package
   package:
-          name: "{{ package_conntrack }}"
-          state: present
+    name: "{{ package_conntrack }}"
+    state: present
   notify: restart conntrackd
 - name: enable conntrackd service
   service:
-    name: conntrackd
+    name: "{{ servicename_conntrackd }}"
     state: restarted
     enabled: yes
