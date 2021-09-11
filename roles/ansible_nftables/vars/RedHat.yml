@@ -1,0 +1,9 @@
+---
+remove_conflicting:
+  - iptables
+  - firewalld
+packagename_nftables: "nftables"
+filepath_nftablesrules: "/etc/nftables/main.nft"
+ownername_nftablesrules: "root"
+groupname_nftablesrules: "root"
+servicename_nftables: "nftables"
