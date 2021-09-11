@@ -1,0 +1,4 @@
+---
+packagename_radvd: "radvd"
+filepath_radvd_conf: "/etc/radvd.conf"
+servicename_radvd: "radvd"

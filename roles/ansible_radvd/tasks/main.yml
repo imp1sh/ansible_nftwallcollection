@@ -1,3 +1,17 @@
-- name: Include alpine dependant
-  import_tasks: alpine.yml
-  when: ansible_facts['os_family'] == 'Alpine'
+# import OS variables
+- name: include OS vars
+  include_vars: "{{ ansible_os_family }}.yml"
+- name: Install radvd
+  package:
+    name: "{{ packagename_radvd }}"
+    state: present
+- name: Install radvd template
+  template:
+    src: "{{ templatename_radvd_conf }}"
+    dest: "{{ filepath_radvd_conf }}"
+  notify: restart radvd
+- name: Start radvd
+  service:
+    name: "{{ servicename_radvd }}"
+    state: started
+    enabled: yes
