@@ -7,6 +7,7 @@
     group: "{{ groupname_nftablesrules }}"
     mode: 0640
   when: nftablesmode == "firewall"
+  notify: reload nftables
 - name: Install rules for workstation mode
   template:
     src: "{{ templatename_rules_workstation }}"
@@ -15,6 +16,7 @@
     group: "{{ groupname_nftablesrules }}"
     mode: 0640
   when: nftablesmode == "workstation"
+  notify: reload nftables
 - name: "Install rules for server mode"
   template:
     src: "{{ templatename_rules_server }}"
@@ -23,3 +25,4 @@
     group: "{{ groupname_nftablesrules }}"
     mode: 0640
   when: nftablesmode == "server"
+  notify: reload nftables

@@ -4,6 +4,7 @@ remove_conflicting:
   - firewalld
 packagename_nftables: "nftables"
 filepath_nftablesrules: "/etc/nftables/main.nft"
+binpath_nft: "/sbin/nft"
 ownername_nftablesrules: "root"
 groupname_nftablesrules: "root"
 servicename_nftables: "nftables"

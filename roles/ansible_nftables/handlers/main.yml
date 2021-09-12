@@ -1,7 +1,3 @@
 ---
-- name: reload nftables alpine
-  command: /usr/sbin/nft -f /etc/nftables.nft
-- name: reload nftables debian
-  command: /usr/sbin/nft -f /etc/nftables.conf
-- name: reload nftables redhat
-  command: /sbin/nft -f /etc/nftables/main.nft
+- name: reload nftables
+  command: "{{ binpath_nft }} -f {{ filepath_nftablesrules }}"
