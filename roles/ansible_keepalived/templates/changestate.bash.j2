@@ -13,10 +13,12 @@ if [ "$1" = "primary" ]; then
   echo "primary"
   service kea-dhcp4 start
   service kea-dhcp6 start
+  service radvd start
 elif [ "$1" = "secondary" ]; then
   echo "secondary"
   service kea-dhcp4 stop
   service kea-dhcp6 stop
+  service radvd stop
 else
   echohowto
   exit 2
