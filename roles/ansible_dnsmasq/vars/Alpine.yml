@@ -1,0 +1,7 @@
+---
+package_dnsmasq: "dnsmasq"
+filepath_dnsmasq_globalconfig: "/etc/dnsmasq.d/global.conf"
+filepath_dnsmasq_interface: "/etc/dnsmasq.d/interface.conf"
+templatefile_dnsmasq_globalconfig: "dnsmasq.global.conf.j2"
+templatefile_dnsmasq_interface: "dnsmasq.dhcp.conf.j2"
+servicename_dnsmasq: "dnsmasq"
